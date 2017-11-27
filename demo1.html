@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    div { border:2px solid black;border-radius:20px;margin:5px;padding:5px;}
+    #todolist > li:hover { cursor: pointer }
+</style>
+<body>
+    <div class="todolist">
+        <h1>List of todos</h1>
+        <ul id="todolist" onclick="com.todo.selectTodo()">
+            <li>Hond uitlaten</li>
+            <li>Kat uitlaten</li>
+            <li>Eend uitlaten</li>
+        </ul>
+    </div>
+
+    <div class="details">
+        <h1>Details of todo</h1>
+        <p id="detailsp">De hond wel alles laten doen..</p>
+    </div>
+
+    <div class="newtodo">
+        <h1>Add a new todo</h1>
+        <dl>
+            <dt>Todo</dt>
+            <dd><input type="text" name="title" value=""></dd>
+            <dt>Description</dt>
+            <dd><input type="text" name="description"></dd>
+            <input type="submit" value="sla op" onclick="com.todo.saveTodo()"/>
+        </dl>
+    </div>
+</body>
+<script>
+    var com; // ns
+    // IIFE
+    (function(ns){
+        var todos = [];
+        ns.saveTodo = function () {
+           var todolist = document.querySelector("#todolist");
+           var title = document.querySelector("input[name=title]").value;
+           var description = document.querySelector("input[name=description]").value;
+           todolist.innerHTML += `<li>${title}</li>`; 
+           todos.push({title:title, description:description});
+        }
+        ns.selectTodo = function(){
+            var title = event.target.innerText; // li 
+            var todo = todos.find(t => t.title == title);
+            var details = document.querySelector("#detailsp");
+            details.innerHTML = `<h1>${todo.title}</h1><p>${todo.description}</p>`;
+        }
+    })((com = com || {}, com.todo = com.todo || {})); // namespace pattern...
+</script>
+</html>
