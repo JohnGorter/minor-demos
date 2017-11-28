@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <video id="myVideo" controls height="200" width="400">
+        <source src="/VIDEO.mp4" type="video/mp4"></source>
+    </video>
+<canvas id="myCanvas" width="200" height="400" style="border:1px solid #000000;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+    setInterval(()=>{
+        var canvas = document.querySelector("#myCanvas");
+        var ctx = canvas.getContext("2d");
+        var video = document.querySelector("#myVideo");
+        ctx.drawImage(video, 0, 0, 200, 400);
+        console.log("drawing");
+        var dataurl = canvas.toDataURL("image/png");
+        var image = new Image(); 
+        image.src = dataurl;
+        image.setAttribute("data-time", video.currentTime);
+        document.body.appendChild(image);
+
+    }, 1000); 
+</script>
+
+</body>
+</html>

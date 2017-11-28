@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .blokje { bottom:0px;width:100vw;height:0px;background-color: coral;position:absolute;}
+    /*
+    .blokje.step1 { height:50vh;}
+    .blokje.step2 { height:80vh;} */
+</style>
+<body>
+    <div class="blokje"></div>
+    <script>
+        setTimeout(() => {
+            var options = {
+                duration:2000
+            }; 
+            var animations = [
+                { height: '0vh' },
+                { height: '50vh'},
+            ];
+
+          document.querySelector(".blokje").animate(animations, options);
+        }, 3000); 
+    </script>
+</body>
+</html>

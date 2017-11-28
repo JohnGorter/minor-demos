@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <style>
+        .container { display:flex;top:0px;height:100px;background-color:coral;}
+        .blok { padding:20px;margin:10px;}
+        .reclame { width:500px;height:500px;position:absolute;top:10px;left:10px;background-color:green;color:white;display:block}
+
+        body { background-color:yellow}
+        @media screen and (max-width:400px) {
+            .reclame { display:none}
+        }
+
+
+        @media screen and (orientation:landscape) {
+            body { background-color:pink}
+        }
+    </style>
+    <body>
+        <div class="reclame">Reclame</div>
+
+        <div class="container">
+            <div class="blok">
+               menu
+            </div>
+            <div class="blok" style="flex:1">
+                Application title
+            </div>
+            <div class="blok">
+                search
+            </div>
+        </div>
+    
+    </body>
+</html>
