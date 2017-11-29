@@ -12,6 +12,8 @@
     <div id="drop" style="overflow:scroll;font-size:10px;border:2px solid black;width:250px;height:250px" ondragover="drag(event)" ondrop="drop(event)" ondragend="dragend(event)">
         Drop your sh213$#@$!@ here
     </div>
+
+    <button id="download" onclick="download();" hidden>download</button>
     <script>
 
         function dragend(event) { event.preventDefault(); }
@@ -22,8 +24,24 @@
             var reader = new FileReader();
             reader.onload = (content) => {
                 document.querySelector("#drop").innerText = content.target.result;
+                document.querySelector("#download").hidden = false;
             };
             reader.readAsText(event.dataTransfer.files[0]);
+        }
+
+        function download() {
+            var blob = new Blob(
+                [document.querySelector("#drop").innerText],
+                {type: "text/plain"}
+            );
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            document.body.appendChild(a);
+            a.style = 'display: none';
+            a.href = url;
+            a.download = 'data.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
         }
     </script>
 
