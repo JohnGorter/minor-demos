@@ -19,11 +19,32 @@ self.addEventListener("push", function(event){
     const options = {
       body: 'Yay it works.',
       icon: 'images/icon.png',
-      badge: 'images/badge.png'
+      badge: 'images/badge.png',
+      data: 10,
+      actions: [  
+        {action: 'like', title: 'Like'},  
+        {action: 'reply', title: 'Reply'}]  
     };
   
     event.waitUntil(self.registration.showNotification(title, options));
 });
+
+
+self.addEventListener('notificationclick', function(event) {  
+    var messageId = event.notification.data;
+  
+    event.notification.close();
+  
+    if (event.action === 'like') {  
+      console.log('liked item');
+    }  
+    else if (event.action === 'reply') {  
+      clients.openWindow("/messages?reply=" + messageId);  
+    }  
+    else {  
+      clients.openWindow("/messages?reply=" + messageId);  
+    }  
+  }, false);
 
 // self.addEventListener('fetch', function(event) {
 //     event.respondWith(

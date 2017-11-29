@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/socket.io/socket.io.js"></script>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <button>Send fake data</button>
+
+        <script>
+             var socket = io();
+            
+             document.querySelector("button").addEventListener("click", function(){
+                socket.emit('message', "test");
+                return false;
+             });
+
+
+            socket.on('message', function(msg){
+                console.log(msg);
+                var div = document.createElement("div");
+                div.innerText = msg;
+                document.body.appendChild(div);
+            });
+</script>
+        </script>
+    
+    </body>
+</html>
