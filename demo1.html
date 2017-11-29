@@ -8,50 +8,91 @@
     <script src="modernizr.js"></script>
 </head>
 <style>
-    div { border:2px solid black;border-radius:20px;margin:5px;padding:5px;}
+    div > div { border:2px solid black;border-radius:20px;margin:5px;padding:5px;min-width:320px;}
     #todolist > li:hover { cursor: pointer }
-
+    #container { display:flex;flex-wrap:wrap;max-width:100vw;}
 </style>
 <body>
 
-    <div class="todolist">
-        <h1>List of todos</h1>
-        <ul id="todolist" onclick="Todos.selectTodo()" >
-        </ul>
-    </div>
+    <div id="container">
 
-    <div class="details">
-        <h1>Details of todo</h1>
-        <p id="detailsp">De hond wel alles laten doen..</p>
-    </div>
+        <img id="img">
+        <div class="todolist">
+            <h1>List of todos</h1>
+            <ul id="todolist" onclick="Todos.selectTodo()" >
+            </ul>
+        </div>
 
-    <div class="newtodo">
-        <h1>Add a new todo</h1>
-        <dl>
-            <dt>Todo</dt>
-            <dd><input type="text" name="title" placeholder="title" required></dd>
-            <dt>Description</dt>
-            <dd><input type="text" name="description"></dd>
-            <input type="submit" value="sla op" onclick="Todos.saveTodo();" />
-        </dl>
+        <div class="details">
+            <h1>Details of todo</h1>
+            <p id="detailsp">De hond wel alles laten doen..</p>
+        </div>
+
+        <div class="newtodo">
+            <h1>Add a new todo</h1>
+            <dl>
+                <dt>Todo</dt>
+                <dd><input type="text" name="title" placeholder="title" required></dd>
+                <dt>Description</dt>
+                <dd><input type="text" name="description"></dd>
+                <input type="submit" value="sla op" onclick="Todos.saveTodo();" />
+            </dl>
+        </div>
     </div>
+    <footer>
+
+    </footer>
 </body>
 
 <script> 
+    console.log(window.navigator.onLine);
+
+    window.addEventListener("online", () => {
+        console.log("we are now online!");
+    });
+    window.addEventListener("offline", () => {
+        console.log("we are now offline!");
+    });
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+        console.log('pos', pos);
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.coords.latitude},${pos.coords.longitude}&key=AIzaSyBhg6VUR7kJVqIVzTT4SLCibbpQDwtyw3k`).then(
+            (res) => res.json()).then((data) => {
+            document.querySelector("footer").innerText = `${data.results[0].formatted_address}`;
+            document.querySelector("#img").src="./babe.jpg";
+        })
+    }); 
+
+    //navigator.serviceWorker.register('start.js');
+
+
     class Todos {
         static saveTodo() {
            var title = document.querySelector("input[name=title]").value;
            var description = document.querySelector("input[name=description]").value;
-           var li = document.createElement("li"); 
-           li.innerText = title;
-           li.todoItem = {title:title, description:description};
-           document.querySelector("#todolist").appendChild(li); 
+           var todo = {title:title,description:description}
+           Todos.addTodoToList(todo);
+           todos.push(todo);
+           localStorage["todos"] = JSON.stringify(todos);
         }
         static selectTodo() {
             var details = document.querySelector("#detailsp");
             details.innerHTML = `<h1>${event.target.todoItem.title}</h1><p>${event.target.todoItem.description}</p>`;
         }
+
+        static addTodoToList(todo){
+           var li = document.createElement("li"); 
+           li.innerText = todo.title;
+           li.todoItem = todo;
+           document.querySelector("#todolist").appendChild(li);
+        }
     }
+
+    var todostring = localStorage["todos"] || "[]";
+    var todos = JSON.parse(todostring);
+    for (let t of todos) Todos.addTodoToList(t);
+
+
  </script>
  
 </html>
