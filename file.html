@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Selecteer een bestand: <input type="file" id="file"><button onclick="showFile();">Show contents</button>
+
+    <div id="drop" style="overflow:scroll;font-size:10px;border:2px solid black;width:250px;height:250px" ondragover="drag(event)" ondrop="drop(event)" ondragend="dragend(event)">
+        Drop your sh213$#@$!@ here
+    </div>
+    <script>
+
+        function dragend(event) { event.preventDefault(); }
+        function drag(event) { event.preventDefault(); }
+
+        function drop(event){
+            event.preventDefault(); 
+            var reader = new FileReader();
+            reader.onload = (content) => {
+                document.querySelector("#drop").innerText = content.target.result;
+            };
+            reader.readAsText(event.dataTransfer.files[0]);
+        }
+    </script>
+
+</body>
+</html>
