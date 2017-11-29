@@ -45,13 +45,44 @@
 </body>
 
 <script> 
-    console.log(window.navigator.onLine);
+    
 
+
+
+    console.log(window.navigator.onLine);
     window.addEventListener("online", () => {
         console.log("we are now online!");
     });
     window.addEventListener("offline", () => {
         console.log("we are now offline!");
+    });
+
+    const applicationServerKey = urlB64ToUint8Array("BKj_k9YvI3q03M3qUSs-Tq4BPfm8Wil1MAJqfMgRA56P8w2MjwSqvssR6j1XmOyTg8C-N4UkqrOW3DoooTS0MyY");
+    
+    /*
+    Public Key
+
+    BKj_k9YvI3q03M3qUSs-Tq4BPfm8Wil1MAJqfMgRA56P8w2MjwSqvssR6j1XmOyTg8C-N4UkqrOW3DoooTS0MyY
+    Private Key
+
+    VpLcO6-15pgJucxXq-zMxdrSTA7k32YEuxvdOtnKjRA
+    */
+    navigator.serviceWorker.register('start.js').then((reg) => {
+        reg.pushManager.getSubscription().then((sub) => {
+            if (sub){} 
+            else {
+                reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: applicationServerKey
+                }).then(function(subscription) {
+                    console.log('User is subscribed.');
+                    updateSubscriptionOnServer(subscription);
+                    isSubscribed = true;
+                }).catch((error) => {
+                    console.log("error", error);
+                });
+            }
+        }); 
     });
 
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -92,6 +123,22 @@
     var todos = JSON.parse(todostring);
     for (let t of todos) Todos.addTodoToList(t);
 
+
+
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
 
  </script>
  
