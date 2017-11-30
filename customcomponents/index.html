@@ -5,11 +5,100 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
-        <link rel="import" href="component.html">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.js"></script>
+        <link rel="import" href="/bower_components/polymer/polymer.html">
+        <link rel="import" href="/app-icons.html">
+    
+        <link rel="import" href="/bower_components/iron-list/iron-list.html">
+        <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+        <link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
+        <link rel="import" href="/bower_components/paper-item/paper-item.html">
+        <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+        <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+        <link rel="import" href="/bower_components/app-route/app-location.html">
+        <link rel="import" href="/bower_components/app-route/app-route.html">
+        <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+        <link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+        <link rel="import" href="/bower_components/app-layout/app-layout.html">
+        <link rel="import" href="/app-theme.html">
     </head>
-    <body>
-        <style>h1 { color:green }</style>
-        <h1>bla</h1>
-        <my-babe name="tessa"> </my-babe>
+    <body style="margin:0px;">
+        <dom-module id="my-app">
+            <template>
+                <style include="app-theme">
+                iron-icon { --iron-icon-fill-color:red;--iron-icon-width:70px;--iron-icon-height:70px;} 
+                app-header {
+                      background-color:var(--main-color, red);
+                        --app-header-background-rear-layer: {
+                            /* The header is blue when condensed */
+                            background-color: blue;
+                        };
+                    }
+                </style>
+                
+                <app-header-layout has-scrolling-region style="height: 100vh;">
+                        <app-header slot="header" fixed condenses effects="waterfall">
+                          <app-toolbar>
+                            <div main-title>App name</div>
+                          </app-toolbar>
+                        </app-header>
+                        <div>
+                                <paper-listbox selected="{{routeData.view}}" attr-for-selected="name">
+                                        <paper-item name="john">Eerste pagina</paper-item>
+                                        <paper-item name="other">Tweede pagina</paper-item>
+                                        <paper-item name="third" on-tap="dostuff">Derde pagina</paper-item>
+                                    </paper-listbox>
+                    
+                                    <iron-pages selected="{{routeData.view}}" attr-for-selected="name">
+                                        <div  name="john"> eerste pagina</div>
+                    
+                                        <iron-list items="[[data]]"  name="other">
+                                                <template>
+                                                    <div style="height:150px;"><img src$="[[item.image]]">[[item.name]] </div>
+                                                </template>
+                                            </iron-list>
+                    
+                                        <john-comp name="third"> Third component does not exist</john-comp>
+                                    </iron-pages>
+                                
+                                <iron-icon icon="appicons:3d-rotation"></iron-icon>
+                        </div>
+                 </app-header-layout>
+                        
+                 
+                
+               
+
+                <app-location route="{{route}}"></app-location>
+                route: {{_toJSON(route)}}
+                <app-route pattern="/:view" active="{{active}}" route="{{route}}" data="{{routeData}}"></app-route><br/>
+                active:{{active}} route: {{_toJSON(routeData)}}
+                
+            </template>
+            <script>
+            Polymer({
+              is:'my-app',
+              properties:{
+                  data:{type:Array, value:[]}
+              },
+              _toJSON(r){
+                 return JSON.stringify(r);
+              },
+
+              dostuff(){
+                 this.importHref(this.resolveUrl('third.html'));
+              },
+
+              created(){
+                  for (var i = 0; i < 1000; i++)   
+                      this.data.push({ 
+                          name: faker.name.findName(),
+                          image: faker.image.avatar()
+                      });
+              }
+            })
+            </script>
+        </dom-module>
+        <my-app></my-app>
     </body>
 </html>

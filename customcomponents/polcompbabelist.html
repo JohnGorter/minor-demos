@@ -1,0 +1,34 @@
+<link rel="import" href="polcompbabe.html">
+
+<dom-module id="babe-list">
+    <template>
+        <style>
+        *[hide] { display:none }
+        </style>
+        <h1>list</h1>
+
+        inside the list {{name}}
+        <my-babe title="{{name::title-changed}}"></my-babe>
+
+        <my-ajax auto url="/data.json" data="{{mydata}}"></my-ajax>
+        <my-websocket auto data="{{message}}"></my-websocket>
+
+        {{message}}
+        
+        <template is="dom-repeat" items="{{mydata}}">
+            <div>{{item.name}}</div>
+        </template>
+
+    </template>
+    <script>
+    Polymer({
+      is:'babe-list',
+      properties:{
+          name: { type:String, value:'john'}
+      },
+      log() {
+          console.log('title has changed');
+      }
+    })
+    </script>
+</dom-module>

@@ -1,0 +1,27 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<dom-module id="my-websocket">
+    <script>
+    var socket = io(); 
+    Polymer({
+      is:'my-websocket',
+      properties:{
+        data:{type:String, value:"", notify:true},
+        auto:{type:Boolean, value:false}
+      },
+      
+      start(){
+          socket.on('message', (m) =>{
+            this.data = m;
+          }); 
+      },
+
+      created(){
+         socket.on('message', (m) =>{
+               this.data = m;
+          }); 
+      }
+
+    })
+    </script>
+</dom-module>

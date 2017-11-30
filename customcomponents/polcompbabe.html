@@ -1,0 +1,16 @@
+
+<dom-module id="my-babe">
+    <template>
+        <h3>hessssllo {{title}}</h3>
+    </template>
+    <script>
+    Polymer({
+        is:'my-babe',
+        properties:{
+            title:{ readOnly:true, type:String, value:'', notify:false}, // title-changed
+            hide: { type:Boolean, value:false, reflectToAttribute:true}
+        }
+    });
+    </script>
+</dom-module>
+

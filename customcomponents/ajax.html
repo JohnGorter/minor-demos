@@ -1,0 +1,27 @@
+<dom-module id="my-ajax">
+    <script>
+    Polymer({
+      is:'my-ajax',
+      properties:{
+        url:{type:String, value:'', observer:'_urlchanged'},
+        data:{type:Object, value:{}, notify:true},
+        auto:{type:Boolean, value:false}
+      },
+
+      _urlchanged(){
+          if (this.url != "" && this.auto)
+             fetch(this.url).then((r) => r.json()).then(d => console.log(this.data = d));
+      },
+      
+      generateRequest(){
+        if (this.url != "")
+             fetch(this.url).then((r) => r.json()).then(d => console.log(this.data = d));
+      },
+
+      created(){
+          console.log('attached');
+      }
+
+    })
+    </script>
+</dom-module>
