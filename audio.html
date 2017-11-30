@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+    <script>
+        var context = new OfflineAudioContext(2, length, 44200);
+scheduleNextBlock();
+context.startRendering().then( (buffer) => { /* store the buffer */ } );
+
+function scheduleNextBlock() {
+    // create any notes for the next blockSize number of seconds here
+    // ...
+
+    // make sure to tell the context to suspend again after this block;
+    context.suspend(context.currentTime + blockSize).then( scheduleNextBlock );
+
+    context.resume();
+}
+</script>
+    </body>
+</html>

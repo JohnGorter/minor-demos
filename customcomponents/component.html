@@ -1,0 +1,44 @@
+
+
+
+<template id="my-babe">
+    <h1>hello babes</h1>
+</template>
+<script>
+
+    var template = document.currentScript.ownerDocument.querySelector("#my-babe");
+
+
+    class MyComponent extends HTMLElement {
+
+        
+        static get observedAttributes() {
+                return ['name'];
+        }
+
+        get name() { return this._name;}
+        set name(value) {  this._name = value;}
+
+        constructor(){
+            super();
+            this._name = 'Dionne';
+        }
+
+        connectedCallback(){
+            var node = document.importNode(template.content, true); 
+            this.createShadowRoot().appendChild(node);
+        }
+
+        attributeChangedCallback(e, old, newn){
+            console.log("e", e, old, newn)
+            this._name = newn;
+        }
+
+        changeBabe(){
+            this.name = "Someone else";
+            dispatchEvent(new CustomEvent("babechanged"));
+        }
+        
+    }
+    customElements.define("my-babe", MyComponent);
+</script>

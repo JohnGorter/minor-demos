@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="addDionne();">Add</button>
+    <script>
+        function addDionne() {
+            var t = document.querySelector("#test");
+            var tinstance = document.importNode(t.content, true);
+            document.body.appendChild(tinstance); 
+        }
+    
+    </script>
+    <template id="test">
+        <script>
+        alert("my girlfriend");
+        </script>
+        <img src="https://static-sls.smf.aws.sanomacloud.net/story.nl/s3fs-public/styles/large_main_image/public/main_media/dionne-stax-reactie-affaire.jpg?itok=GlNWfDCt">
+    </template>
+</body>
+</html>
