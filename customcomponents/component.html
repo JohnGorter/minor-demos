@@ -26,7 +26,7 @@
 
         connectedCallback(){
             var node = document.importNode(template.content, true); 
-            this.createShadowRoot().appendChild(node);
+            this.attachShadow({mode:'open'}).appendChild(node);
         }
 
         attributeChangedCallback(e, old, newn){
