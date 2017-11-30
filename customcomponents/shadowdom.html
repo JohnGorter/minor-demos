@@ -11,9 +11,9 @@
    * { --main-color:red;}
    </style>
     <h1>hello page</h1>
-    <div id="bla">     <!-- //   host -->
-        <span slot="header">tekst</span>
-    </div>
+    <my-div id="bla">     <!-- //   host -->
+        <div slot="header">hello slot</div>
+    </my-div>
 
     <template id="mydiv">
         <slot name="header"></slot>
@@ -22,10 +22,15 @@
     </template>
 
     <script>
-        var div = document.querySelector("#bla");
-        var root = div.createShadowRoot(); 
-        root.appendChild(document.importNode(document.querySelector("#mydiv").content, true)); 
-
+        class MyDiv extends HTMLElement {
+            connectedCallback(){
+                // var div = document.querySelector("#bla");
+                // var root = this.createShadowRoot();  // v0  
+                var root = this.attachShadow({mode: 'open'});  //v1
+                root.appendChild(document.importNode(document.querySelector("#mydiv").content, true)); 
+            }
+        }
+        customElements.define('my-div', MyDiv);
 
     </script>
 </body>
